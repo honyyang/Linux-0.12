@@ -121,7 +121,7 @@ __asm__("cld\n"
 	"jl 4f\n\t"
 	"negl %%eax\n"
 	"4:"
-	:"=a" (__res):"D" (cs),"S" (ct),"c" (count):"si","di","cx");
+	:"=a" (__res):"D" (cs),"S" (ct),"c" (count));
 return __res;
 }
 
@@ -228,8 +228,7 @@ __asm__("cld\n\t"
 	"jmp 3f\n"
 	"2:\txorl %0,%0\n"
 	"3:"
-	:"=S" (__res):"a" (0),"c" (0xffffffff),"0" (cs),"g" (ct)
-	:"ax","cx","dx","di");
+	:"=S" (__res):"a" (0),"c" (0xffffffff),"0" (cs),"g" (ct));
 return __res;
 }
 
@@ -268,7 +267,7 @@ __asm__("cld\n\t"
 	"scasb\n\t"
 	"notl %0\n\t"
 	"decl %0"
-	:"=c" (__res):"D" (s),"a" (0),"0" (0xffffffff):"di");
+	:"=c" (__res):"D" (s),"a" (0),"0" (0xffffffff));
 return __res;
 }
 
@@ -397,8 +396,7 @@ extern inline void * memset(void * s,char c,int count)
 __asm__("cld\n\t"
 	"rep\n\t"
 	"stosb"
-	::"a" (c),"D" (s),"c" (count)
-	:"cx","di");
+	::"a" (c),"D" (s),"c" (count));
 return s;
 }
 
