@@ -78,8 +78,7 @@ static int match(int len,const char * name,struct dir_entry * de)
 		"fs ; repe ; cmpsb\n\t"
 		"setz %%al"
 		:"=a" (same)
-		:"0" (0),"S" ((long) name),"D" ((long) de->name),"c" (len)
-		:"cx","di","si");
+		:"0" (0),"S" ((long) name),"D" ((long) de->name),"c" (len));
 	return same;
 }
 
