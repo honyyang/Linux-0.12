@@ -32,12 +32,13 @@
 #include <fcntl.h>
 
 #define MINIX_HEADER 32
-#define GCC_HEADER 1024
+#define GCC_HEADER 4096
 
 #define SYS_SIZE 0x3000
 
-#define DEFAULT_MAJOR_ROOT 3
-#define DEFAULT_MINOR_ROOT 6
+// 1.44MB DRIVE[B:]
+#define DEFAULT_MAJOR_ROOT 2
+#define DEFAULT_MINOR_ROOT 29
 
 #define DEFAULT_MAJOR_SWAP 0
 #define DEFAULT_MINOR_SWAP 0
@@ -65,7 +66,7 @@ void usage(void)
 int main(int argc, char ** argv)
 {
 	int i,c,id;
-	char buf[1024];
+	char buf[4096];
 	char major_root, minor_root;
 	char major_swap, minor_swap;
 	struct stat sb;
@@ -188,7 +189,7 @@ int main(int argc, char ** argv)
 		die("Unable to open 'system'");
 	if (read(id,buf,GCC_HEADER) != GCC_HEADER)
 		die("Unable to read header of 'system'");
-	if (((long *) buf)[5] != 0)
+	if (((long *) buf)[5] != 1) // elf Version
 		die("Non-GCC header of 'system'");
 	for (i=0 ; (c=read(id,buf,sizeof buf))>0 ; i+=c )
 		if (write(1,buf,c)!=c)
