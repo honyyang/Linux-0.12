@@ -23,9 +23,14 @@ int printk(const char *fmt, ...)
 	va_list args;
 	int i;
 
+	asm (".globl __printk01\n\t__printk01:"::);
 	va_start(args, fmt);
+	asm (".globl __printk02\n\t__printk02:"::);
 	i=vsprintf(buf,fmt,args);
+	asm (".globl __printk03\n\t__printk03:"::);
 	va_end(args);
+	asm (".globl __printk04\n\t__printk04:"::);
 	console_print(buf);
+	asm (".globl __printk05\n\t__printk05:"::);
 	return i;
 }

@@ -413,13 +413,16 @@ void tty_init(void)
 	rs_queues[1] = (struct tty_queue) {0x3f8,0,0,0,""};
 	rs_queues[3] = (struct tty_queue) {0x2f8,0,0,0,""};
 	rs_queues[4] = (struct tty_queue) {0x2f8,0,0,0,""};
+	asm (".globl __tty_io01\n\t__tty_io01:"::);
 	for (i=0 ; i<256 ; i++) {
 		tty_table[i] =  (struct tty_struct) {
 		 	{0, 0, 0, 0, 0, INIT_C_CC},
 			0, 0, 0, NULL, NULL, NULL, NULL
 		};
 	}
+	asm (".globl __tty_io02\n\t__tty_io02:"::);
 	con_init();
+	asm (".globl __tty_io03\n\t__tty_io03:"::);
 	for (i = 0 ; i<NR_CONSOLES ; i++) {
 		con_table[i] = (struct tty_struct) {
 		 	{ICRNL,		/* change incoming CR to NL */
@@ -435,6 +438,7 @@ void tty_init(void)
 			con_queues+0+i*3,con_queues+1+i*3,con_queues+2+i*3
 		};
 	}
+	asm (".globl __tty_io04\n\t__tty_io04:"::);
 	for (i = 0 ; i<NR_SERIALS ; i++) {
 		rs_table[i] = (struct tty_struct) {
 			{0, /* no translation */
@@ -450,6 +454,7 @@ void tty_init(void)
 			rs_queues+0+i*3,rs_queues+1+i*3,rs_queues+2+i*3
 		};
 	}
+	asm (".globl __tty_io05\n\t__tty_io05:"::);
 	for (i = 0 ; i<NR_PTYS ; i++) {
 		mpty_table[i] = (struct tty_struct) {
 			{0, /* no translation */
@@ -478,7 +483,10 @@ void tty_init(void)
 			spty_queues+0+i*3,spty_queues+1+i*3,spty_queues+2+i*3
 		};
 	}
+	asm (".globl __tty_io06\n\t__tty_io06:"::);
 	rs_init();
+	asm (".globl __tty_io07\n\t__tty_io07:"::);
 	printk("%d virtual consoles\n\r",NR_CONSOLES);
 	printk("%d pty's\n\r",NR_PTYS);
+	asm (".globl __tty_io08\n\t__tty_io08:"::);
 }

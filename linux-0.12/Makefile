@@ -9,7 +9,7 @@ LD86	=ld86 -0
 
 AS	=as #gas
 LD	=ld #gld
-LDFLAGS	=-s -x -M -Ttext 0 -e startup_32
+LDFLAGS	=-s -x -M -e startup_32 -T ld.def
 CC	=gcc $(RAMDISK)
 CFLAGS	=-Wall -O -fno-stack-protector -fno-builtin -fstrength-reduce -fomit-frame-pointer \
  
@@ -85,7 +85,7 @@ lib/lib.a:
 
 boot/setup: boot/setup.s
 	$(AS86) -o boot/setup.o boot/setup.s
-	$(LD86) -s -o boot/setup boot/setup.o
+	$(LD86) -s -M -o boot/setup boot/setup.o >boot/setup.map
 
 boot/setup.s:	boot/setup.S include/linux/config.h
 	$(CPP) -traditional boot/setup.S -o boot/setup.s
@@ -95,7 +95,7 @@ boot/bootsect.s:	boot/bootsect.S include/linux/config.h
 
 boot/bootsect:	boot/bootsect.s
 	$(AS86) -o boot/bootsect.o boot/bootsect.s
-	$(LD86) -s -o boot/bootsect boot/bootsect.o
+	$(LD86) -s -M -o boot/bootsect boot/bootsect.o >boot/bootsect.map
 
 clean:
 	rm -f Image System.map tmp_make core boot/bootsect boot/setup \

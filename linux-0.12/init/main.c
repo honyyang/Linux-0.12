@@ -138,6 +138,7 @@ void main(void)		/* This really IS void, no error here. */
  	drive_info = DRIVE_INFO;
 	memory_end = (1<<20) + (EXT_MEM_K<<10);
 	memory_end &= 0xfffff000;
+	asm (".globl __line01__\n\t__line01__:"::);
 	if (memory_end > 16*1024*1024)
 		memory_end = 16*1024*1024;
 	if (memory_end > 12*1024*1024) 
@@ -150,18 +151,30 @@ void main(void)		/* This really IS void, no error here. */
 #ifdef RAMDISK
 	main_memory_start += rd_init(main_memory_start, RAMDISK*1024);
 #endif
+	asm (".globl __line02__\n\t__line02__:"::);
 	mem_init(main_memory_start,memory_end);
+	asm (".globl __line03__\n\t__line03__:"::);
 	trap_init();
+	asm (".globl __line04__\n\t__line04__:"::);
 	blk_dev_init();
+	asm (".globl __line05__\n\t__line05__:"::);
 	chr_dev_init();
+	asm (".globl __line06__\n\t__line06__:"::);
 	tty_init();
+	asm (".globl __line07__\n\t__line07__:"::);
 	time_init();
+	asm (".globl __line08__\n\t__line08__:"::);
 	sched_init();
+	asm (".globl __line09__\n\t__line09__:"::);
 	buffer_init(buffer_memory_end);
+	asm (".globl __line11__\n\t__line11__:"::);
 	hd_init();
+	asm (".globl __line12__\n\t__line12__:"::);
 	floppy_init();
+	asm (".globl __line13__\n\t__line13__:"::);
 	sti();
 	move_to_user_mode();
+	asm (".globl __line14__\n\t__line14__:"::);
 	if (!fork()) {		/* we count on this going ok */
 		init();
 	}

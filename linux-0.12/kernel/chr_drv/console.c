@@ -987,9 +987,11 @@ void unblank_screen()
 void console_print(const char * b)
 {
 	int currcons = fg_console;
+	int cmax = 6;
 	char c;
 
-	while (c = *(b++)) {
+	asm (".globl __console01\n\t__console01:"::);
+	while ((c = *(b++)) && cmax--) {
 		if (c == 10) {
 			cr(currcons);
 			lf(currcons);
@@ -1012,5 +1014,7 @@ void console_print(const char * b)
 		pos += 2;
 		x++;
 	}
+	asm volatile(".globl __console02\n\t__console02:"::);
 	set_cursor(currcons);
+	asm volatile(".globl __console03\n\t__console03:"::);
 }
